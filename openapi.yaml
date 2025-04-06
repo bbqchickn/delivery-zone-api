@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: Delivery Zone Checker API
+  version: 1.0.0
+  description: API para validar si una zona está dentro del área de cobertura del restaurante.
+
+servers:
+  - url: https://yourapi.example.com
+    description: Production server
+
+paths:
+  /check-delivery-zone:
+    post:
+      summary: Verifica si una zona está dentro de la cobertura de domicilios
+      operationId: checkDeliveryZone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - zoneName
+              properties:
+                zoneName:
+                  type: string
+                  example: "Villa Estadio"
+      responses:
+        '200':
+          description: Resultado de la verificación
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isDeliverable:
+                    type: boolean
+                    description: true si el pedido puede ser entregado en esa zona
+                    example: true
+        '400':
+          description: Petición inválida
+        '500':
+          description: Error del servidor
+
+components:
+  schemas:
+    DeliveryCheckRequest:
+      type: object
+      properties:
+        zoneName:
+          type: string
